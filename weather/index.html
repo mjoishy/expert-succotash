@@ -1,0 +1,61 @@
+<html><head>
+<title> Weather </title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+<div class="container">
+<header>
+<h2>Weather Forecasting</h2>
+</header>
+<div>
+<h4>Welcome to weather Forecasting</h4>
+<h5>Select your city</h5>
+<select onchange="val()" id="select_id">	
+            <option value="0">-Select City-</option>
+            <option value="Bengaluru,India">Bangalore</option>
+	    <option value="Chennai,India">Chennai</option>
+	    <option value="Pune,India">Pune</option>
+	    <option value="Mumbai,India">Mumbai</option>
+            </select>
+
+
+<p id="display"></p>
+</div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" charset="utf-8"></script>
+
+
+
+
+
+
+<script>
+function val() {
+loc = document.getElementById("select_id").value;
+
+
+
+ $.get('https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="' + loc + '")&format=json', function (data) {
+        
+        if (data.query.results === null) {
+document.getElementById("display").innerHTML="Location not found: " + d+ "!";
+       // alert("Location not found: " + d+ "!");
+
+        } else {
+
+var show=data.query.results.channel.item.title + '  is      ' +data.query.results.channel.wind.chill+'F';
+
+document.getElementById("display").innerHTML=show;
+//alert( data.query.results.channel.item.title + '  is      ' +data.query.results.channel.wind.chill+'F');
+            
+        }
+});
+
+   
+}
+</script>
+
+</body>
+</html>
